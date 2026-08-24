@@ -1,0 +1,40 @@
+name: ATF Bot Scheduler
+
+on:
+  # =========================================================================
+  # روش ۱: زمان‌بندی داخلی خود گیت‌هاب (Cron)
+  # نکته: ممکن است در ساعات شلوغی سرور گیت‌هاب با ۱۵ تا ۵۰ دقیقه تاخیر اجرا شود.
+  # برای فعال‌سازی کافیست علامت # را از ابتدای ۳ خط زیر بردارید:
+  # =========================================================================
+  # schedule:
+  #   - cron: '*/20 * * * *'
+
+  # =========================================================================
+  # روش ۲: اجرای دستی یا تحریک از بیرون توسط cron-job.org (دقیق و سر وقت)
+  # وب‌سایت خارجی با ارسال پیام به گیت‌هاب دکمه اجرا را سر ساعت مشخص می‌زند.
+  # =========================================================================
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run bot runner
+        env:
+          ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
+          TG_API_ID: ${{ secrets.TG_API_ID }}
+          TG_API_HASH: ${{ secrets.TG_API_HASH }}
+        run: python bot_runner_tasks.py
