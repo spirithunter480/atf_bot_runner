@@ -126,7 +126,7 @@ async def boost_worker(acc, start_delay=0.0):
                     current_time = time.time()
 
                     # وقفه کوتاه خستگی
-                    next_break_interval = random.randint(900, 00)
+                    next_break_interval = random.randint(900, 1200)
                     if current_time - last_break_time > next_break_interval:
                         micro_break = random.uniform(20.0, 40.0)
                         print(f"[{acc_name}] Human short break: resting for {micro_break:.1f}s...")
