@@ -21,11 +21,12 @@ on:
 # =============================================================================
 concurrency:
   group: tasks-runner-single
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,6 +46,8 @@ jobs:
           ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
           TG_API_ID: ${{ secrets.TG_API_ID }}
           TG_API_HASH: ${{ secrets.TG_API_HASH }}
+          NOTIFIER_CHAT_ID: ${{ secrets.NOTIFIER_CHAT_ID }}
+          NOTIFIER_BOT_TOKEN: ${{ secrets.NOTIFIER_BOT_TOKEN }}
         # =====================================================================
         # نام فایل پایتون اجرایی تسک‌ها
         # =====================================================================
